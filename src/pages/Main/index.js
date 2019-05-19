@@ -18,8 +18,8 @@ export default class Main extends Component {
 
   componentDidMount() {
     if (typeof Storage !== 'undefined') {
-      const repositories = localStorage.getItem('repositories')
-        ? JSON.parse(localStorage.getItem('repositories'))
+      const repositories = localStorage.getItem('@GitCompare:repositories')
+        ? JSON.parse(localStorage.getItem('@GitCompare:repositories'))
         : [];
       this.setState({ repositories: [...repositories] });
     } else {
@@ -39,7 +39,7 @@ export default class Main extends Component {
 
       const repositories = [...this.state.repositories, repository];
       if (typeof Storage !== 'undefined') {
-        localStorage.setItem('repositories', JSON.stringify(repositories));
+        localStorage.setItem('@GitCompare:repositories', JSON.stringify(repositories));
       } else {
         throw new Error('Sorry! No Web Storage support');
       }
@@ -62,13 +62,13 @@ export default class Main extends Component {
 
       repository.lastCommit = moment(repository.pushed_at).fromNow();
 
-      const repositories = JSON.parse(localStorage.getItem('repositories'));
+      const repositories = JSON.parse(localStorage.getItem('@GitCompare:repositories'));
 
       const index = repositories.findIndex(r => r.id === repository.id);
 
       repositories.splice(index, 1, repository);
 
-      localStorage.setItem('repositories', JSON.stringify(repositories));
+      localStorage.setItem('@GitCompare:repositories', JSON.stringify(repositories));
       this.setState({
         repositories: [...repositories],
       });
@@ -79,11 +79,11 @@ export default class Main extends Component {
 
   handleRemoveRepository = (id) => {
     if (typeof Storage !== 'undefined') {
-      let repositories = JSON.parse(localStorage.getItem('repositories'));
+      let repositories = JSON.parse(localStorage.getItem('@GitCompare:repositories'));
 
       repositories = repositories.filter(repository => repository.id !== id);
 
-      localStorage.setItem('repositories', JSON.stringify(repositories));
+      localStorage.setItem('@GitCompare:repositories', JSON.stringify(repositories));
       this.setState({
         repositories: [...repositories],
       });
